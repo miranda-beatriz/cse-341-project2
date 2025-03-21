@@ -25,5 +25,8 @@
     "swagger": "^0.0.1",
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.11"
   }
 }

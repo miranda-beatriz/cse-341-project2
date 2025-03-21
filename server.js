@@ -9,6 +9,7 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(express.json());
+app.use('/', require('./routes'));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -20,8 +21,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
-app.use('/', require('./routes'));
 
 mongodb.initDb((err) => {
   if (err) {
