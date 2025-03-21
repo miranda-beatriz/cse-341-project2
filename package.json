@@ -26,6 +26,7 @@
     "swagger": "^0.0.1",
     "swagger-autogen": "^2.23.7",
     "swagger-jsdoc": "^6.2.8",
+    "swagger-ui": "^3.29.0",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {

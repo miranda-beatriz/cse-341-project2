@@ -23,6 +23,23 @@ const initDb = (callback) => {
 
 };
 
+const initDbReaders = (callback) => {
+  if (database) {
+    console.log('Db is already initialized!');
+    return callback(null, database);
+  }
+  MongoClient.connect(process.env.MONGODB_URL_READER)
+    .then((client) => {
+      database = client; 
+      callback(null, database);
+    })
+    .catch((err) => {
+      callback(err);
+    });
+    console.log('MongoDB URI:', process.env.MONGODB_URL_READER)
+
+};
+
 const gettDatabase = () => {
   if (!database) {
     throw Error('Database not initialized');
@@ -32,5 +49,6 @@ const gettDatabase = () => {
 
 module.exports = {
   initDb,
+  initDbReaders,
   gettDatabase
 };
