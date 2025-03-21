@@ -13,7 +13,7 @@ const getAll = async (req, res) => {
 const getSingle = async (req, res) => {
       //#swagger.tags=['books']
   const bookId = new ObjectId(req.params.id);
-  const result = await mongodb.gettDatabase().db().collection('books').find({ _id: bookIdId });
+  const result = await mongodb.gettDatabase().db().collection('books').find({ _id: bookId });
   result.toArray().then((books) => {
     res.setHeader('content-Type', 'application/json');
     res.status(200).json(books[0]);
@@ -43,7 +43,7 @@ const createBook = async (req, res) => {
 
 const updateBook = async (req, res) => {
       //#swagger.tags=['books']
-  const contactId = new ObjectId(req.params.id);
+  const bookId = new ObjectId(req.params.id);
   const book = {
     title: req.body.title,
     author: req.body.author,
