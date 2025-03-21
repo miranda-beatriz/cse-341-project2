@@ -3,7 +3,7 @@ const { ObjectId } = require('mongodb');
 
 const getAllReader = async (req, res) => {
       //#swagger.tags=['readers']
-  const result = await mongodb.gettDatabase().db().collection('readers').find();
+  const result = await mongodb.getDatabaseReaders().collection('readers').find();
   result.toArray().then((readers) => {
     res.setHeader('content-Type', 'application/json');
     res.status(200).json(readers);
@@ -13,7 +13,7 @@ const getAllReader = async (req, res) => {
 const getSingleReader = async (req, res) => {
       //#swagger.tags=['readers']
   const readerId = new ObjectId(req.params.id);
-  const result = await mongodb.gettDatabase().db().collection('readers').find({ _id:readerId });
+  const result = await mongodb.getDatabaseReaders().collection('readers').find({ _id:readerId });
   result.toArray().then((readers) => {
     res.setHeader('content-Type', 'application/json');
     res.status(200).json(readers[0]);
@@ -29,7 +29,7 @@ const createReader = async (req, res) => {
       birthday: req.body.birthday,
       favorite_gender: req.body.favorite_gender
     };
-    const response = await mongodb.gettDatabase().db().collection('readers').insertOne(reader);
+    const response = await mongodb.getDatabaseReaders().collection('readers').insertOne(reader);
     if(response.acknowledged){
       res.status(204).send();
     } else{
@@ -48,7 +48,7 @@ const updateReader = async (req, res) => {
       birthday: req.body.birthday,
       favorite_gender: req.body.favorite_gender
   };
-  const response = await mongodb.gettDatabase().db().collection('readers').replaceOne({_id:readerId},reader);
+  const response = await mongodb.getDatabaseReaders().collection('readers').replaceOne({_id:readerId},reader);
   if(response.modifiedCount > 0){
     res.status(204).send();
   } else{
@@ -60,7 +60,7 @@ const updateReader = async (req, res) => {
 const deleteReader = async (req, res) => {
       //#swagger.tags=['readers']
     const readerId = new ObjectId(req.params.id);
-    const response = await mongodb.gettDatabase().db().collection('readers').deleteOne({_id:readerId});
+    const response = await mongodb.getDatabaseReaders().collection('readers').deleteOne({_id:readerId});
     if (response.deletedCount > 0) {
       res.status(204).send();
     } else{
