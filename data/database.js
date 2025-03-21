@@ -1,7 +1,8 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const MongoClient = require('mongodb').MongoClient;
+const {MongoClient} = require('mongodb').MongoClient;
+
 
 let database;
 
@@ -18,6 +19,8 @@ const initDb = (callback) => {
     .catch((err) => {
       callback(err);
     });
+    console.log('MongoDB URI:', process.env.MONGODB_URL)
+
 };
 
 const gettDatabase = () => {
