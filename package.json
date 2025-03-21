@@ -19,6 +19,7 @@
   "homepage": "https://github.com/miranda-beatriz/cse-341-project2#readme",
   "description": "",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mongodb": "^6.15.0",
     "swagger": "^0.0.1",
