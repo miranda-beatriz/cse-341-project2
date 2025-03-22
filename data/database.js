@@ -4,62 +4,36 @@ dotenv.config();
 const MongoClient = require('mongodb').MongoClient;
 
 
-let dbBooks;
-let dbReaders;
+let database;
 
-const initDbBooks = (callback) => {
-  if (dbBooks) {
+
+const initDb = (callback) => {
+  if (database) {
     console.log('Db is already initialized!');
-    return callback(null, dbBooks);
+    return callback(null, database);
   }
   MongoClient.connect(process.env.MONGODB_URL)
     .then((client) => {
-      dbBooks = client.db('books'); 
-      callback(null, dbBooks);
+      database = client.db('project2'); 
+      callback(null, database);
     })
     .catch((err) => {
       callback(err);
     });
-    console.log('MongoDB URI:', process.env.MONGODB_URL)
 
 };
 
-const initDbReaders = (callback) => {
-  if (dbReaders) {
-    console.log('Db is already initialized!');
-    return callback(null, dbReaders);
-  }
-  MongoClient.connect(process.env.MONGODB_URL_READER)
-    .then((client) => {
-      dbReaders = client.db('readers'); 
-      console.log('MongoDB Readers Connected:', process.env.MONGODB_URL_READER);
-      callback(null, dbReaders);
-    })
-    .catch((err) => {
-      callback(err);
-    });
-    console.log('MongoDB URL:', process.env.MONGODB_URL_READER)
 
-};
 
-const getDatabaseBooks = () => {
-  if (!dbBooks)  {
+const getDatabase = () => {
+  if (!database)  {
     throw Error('Database not initialized');
   }
-  return dbBooks;
+  return database;
 };
 
-
-const getDatabaseReaders = () => {
-  if (!dbReaders) {
-    throw Error('Database not initialized');
-  }
-  return dbReaders;
-};
 
 module.exports = {
-  initDbBooks,
-  initDbReaders,
-  getDatabaseBooks,
-  getDatabaseReaders
+ initDb,
+ getDatabase
 };
