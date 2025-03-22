@@ -14,7 +14,8 @@
     "/": {
       "get": {
         "tags": [
-          "books"
+          "books",
+          "readers"
         ],
         "description": "",
         "responses": {
