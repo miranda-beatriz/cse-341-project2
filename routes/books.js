@@ -10,21 +10,31 @@ router.get('/', booksController.getAll);
 router.get('/:id', booksController.getSingle);
 
 router.post(
-    '/',
-    [
-      body("title").isString().withMessage("The title must be a string."),
-      body("author").isString().withMessage("The author must be a string."),
-      body("year").isInt({ min: 1800 }).withMessage("The year must be an integer greater than 1800."),
-    ],
-    (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-      
-      booksController.createBook(req, res);
+  "/",
+  [
+    body("title").isString().withMessage("The title must be a string."),
+    body("author").isString().withMessage("The author must be a string."),
+    body("genre").isString().withMessage("The genre must be a string."),
+    body("publication_year")
+      .isInt({ min: 1800 })
+      .withMessage("The publication year must be an integer greater than 1800."),
+    body("publisher").isString().withMessage("The publisher must be a string."),
+    body("isbn").isString().withMessage("The ISBN must be a string."),
+    body("pages")
+      .isInt({ min: 1 })
+      .withMessage("The pages must be an integer greater than 0."),
+    body("summary").isString().withMessage("The summary must be a string."),
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
-  );
+
+    booksController.createBook(req, res);
+  }
+);
+
   router.put(
     '/:id',
     [
