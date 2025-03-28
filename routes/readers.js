@@ -2,44 +2,76 @@ const express = require('express');
 const { body, validationResult } = require("express-validator");
 
 const router = express.Router();
-
 const readersController = require('../controllers/readers');
 
-router.get('/', readersController.getAllReader);
+router.get('/', async (req, res) => {
+    try {
+        await readersController.getAllReader(req, res);
+    } catch (error) {
+        console.error('Error fetching readers:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
-router.get('/:id', readersController.getSingleReader);
+router.get('/:id', async (req, res) => {
+    try {
+        await readersController.getSingleReader(req, res);
+    } catch (error) {
+        console.error('Error fetching reader:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
 
 router.post(
     '/',
     [
-      body("firstName").isString().withMessage("The first name must be a string."),
-      body("lastName").isString().withMessage("The last name must be a string."),
+        body("firstName").isString().withMessage("The first name must be a string."),
+        body("lastName").isString().withMessage("The last name must be a string."),
     ],
-    (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-      
-      readersController.createReader(req, res);
+    async (req, res) => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
+            }
+            await readersController.createReader(req, res);
+        } catch (error) {
+            console.error('Error creating reader:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
     }
-  );
-  router.put(
+);
+
+router.put(
     '/:id',
     [
         body("firstName").isString().withMessage("The first name must be a string."),
         body("lastName").isString().withMessage("The last name must be a string."),
     ],
-    (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-      
-      readersController.updateReader(req, res);
+    async (req, res) => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
+            }
+            await readersController.updateReader(req, res);
+        } catch (error) {
+            console.error('Error updating reader:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
     }
-  );
-router.delete('/:id', readersController.deleteReader);
+);
+
+router.delete('/:id', async (req, res) => {
+    try {
+        await readersController.deleteReader(req, res);
+    } catch (error) {
+        console.error('Error deleting reader:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 
 /**
  * @swagger
