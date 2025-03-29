@@ -5,6 +5,9 @@ const router = express.Router();
 
 const booksController = require('../controllers/books');
 
+const {isAuthenticated} = require("../middleware/authenticate");
+
+
 router.get('/', async (req, res) => {
   try {
       await booksController.getAll(req, res);
@@ -25,6 +28,7 @@ router.get('/:id', async (req, res) => {
 
 router.post(
   "/",
+  isAuthenticated,
   [
       body("title").isString().withMessage("The title must be a string."),
       body("author").isString().withMessage("The author must be a string."),
@@ -55,6 +59,7 @@ router.post(
 
 router.put(
   '/:id',
+  isAuthenticated,
   [
       body("title").optional().isString().withMessage("The title must be a string."),
       body("author").optional().isString().withMessage("The author must be a string."),
@@ -74,7 +79,7 @@ router.put(
   }
 );
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',isAuthenticated, async (req, res) => {
   try {
       await booksController.deleteBook(req, res);
   } catch (error) {

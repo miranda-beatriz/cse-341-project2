@@ -8,6 +8,7 @@ const doc = {
     version: "1.0.0",
   },
   host: "books-jc03.onrender.com",
+  //host: "localhost:3000",
   schemes: ["http"], 
 };
 

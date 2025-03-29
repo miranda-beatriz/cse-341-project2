@@ -4,6 +4,8 @@ const { body, validationResult } = require("express-validator");
 const router = express.Router();
 const readersController = require('../controllers/readers');
 
+const {isAuthenticated} = require("../middleware/authenticate");
+
 router.get('/', async (req, res) => {
     try {
         await readersController.getAllReader(req, res);
@@ -24,6 +26,7 @@ router.get('/:id', async (req, res) => {
 
 router.post(
     '/',
+    isAuthenticated,
     [
         body("firstName").isString().withMessage("The first name must be a string."),
         body("lastName").isString().withMessage("The last name must be a string."),
@@ -44,6 +47,7 @@ router.post(
 
 router.put(
     '/:id',
+    isAuthenticated,
     [
         body("firstName").isString().withMessage("The first name must be a string."),
         body("lastName").isString().withMessage("The last name must be a string."),
@@ -62,7 +66,7 @@ router.put(
     }
 );
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',isAuthenticated, async (req, res) => {
     try {
         await readersController.deleteReader(req, res);
     } catch (error) {
